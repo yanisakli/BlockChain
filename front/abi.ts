@@ -54,6 +54,22 @@ const abi: AbiItem[] = [
 		"payable": true,
 		"stateMutability": "payable",
 		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "logUser",
+		"outputs": [
+			{
+				// @ts-ignore
+				"internalType": "bool",
+				"name": "isConnected",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "pure",
+		"type": "function"
 	}
 ]
 

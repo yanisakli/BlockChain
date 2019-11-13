@@ -1,5 +1,5 @@
-const BuyHouse = artifacts.require('BuyHouse')
+const HouseFactory = artifacts.require('HouseFactory')
 
 module.exports = function(deployer) {
-	deployer.deploy(BuyHouse);
+	deployer.deploy(HouseFactory);
 }
