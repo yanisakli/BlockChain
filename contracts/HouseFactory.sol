@@ -24,7 +24,7 @@ contract HouseFactory {
     mapping(address => House[]) userIdToHouse;
 
 
-    function createHouse(uint price, string memory postalAddress, uint size) public {
+    function createHouse(uint price, string memory postalAddress, uint size) public payable {
         uint id = uint(keccak256(abi.encodePacked(msg.sender)));
         House memory newHouse = House(id, price, postalAddress, size, userIdToUser[msg.sender]);
         Houses.push(newHouse);
