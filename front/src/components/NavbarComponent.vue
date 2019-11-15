@@ -21,7 +21,7 @@
             <b-navbar-item tag="div">
                 <div class="buttons">
                     You are connected has:
-                    <strong class="tag">0xcfd5c8820d43de0fd9542f8d2d5b6b7fc978f912</strong>
+                    <strong class="tag">{{ $store.state.defaultAddressKey }}</strong>
                 </div>
             </b-navbar-item>
         </template>
@@ -33,6 +33,9 @@
 
   @Component
   export default class NavbarComponent extends Vue {
+    mounted() {
+      console.log('NavbarComponent: store', this.$store.state.defaultAddressKey)
+    }
   }
 </script>
 

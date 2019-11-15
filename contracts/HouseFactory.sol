@@ -59,7 +59,7 @@ contract HouseFactory {
         uint houseId = getHouseId(_houseId);
         User memory user = userIdToUser[msg.sender];
         House memory house = Houses[houseId];
-        house.owner = userIdToUser[msg.sender];
+        house.owner = user;
         Houses[houseId] = house;
         emit ChangeOwner(house);
     }

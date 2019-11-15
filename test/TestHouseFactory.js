@@ -7,7 +7,7 @@ contract("BuyHouse", () => {
 	before(async () => {
 		houseFactoryInstance = await HouseFactory.deployed()
 		await houseFactoryInstance.createUser("Ruben")
-		createHouse = await houseFactoryInstance.createHouse(55, "14 avenue Louis Pasteur", 62)
+		createHouse = await houseFactoryInstance.createHouse(this.price, this.address, this.size)
 
 		truffleAssert.eventEmitted(createHouse, "NewHouse", async (ev) => {
 			if (!ev.houseId) return false
@@ -17,7 +17,7 @@ contract("BuyHouse", () => {
 	})
 
 	it("Should create one house and emit an 'NewHouse' event", async () => {
-		const createHouse = await houseFactoryInstance.createHouse(55, "18 Rue Montparnasse", 62)
+		const createHouse = await houseFactoryInstance.createHouse(this.price, this.address, this.size)
 
 		truffleAssert.eventEmitted(createHouse, "NewHouse", (ev) => {
 			return ev.postalAddress === "18 Rue Montparnasse"

@@ -15,30 +15,36 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import BuyHouse from '../core/contract/BuyHouse'
-const BuyHouseContract = new BuyHouse()
-
-// Todo: remove this shit
-const MyContract = BuyHouseContract.MyContract
 
 @Component
 export default class NewHouseFormComponent extends Vue {
   address: string = '27 Rue Lonnesse'
   size: string = '60'
   price: string = '50000'
-  private ContractAddress = '0x011Cc15aCe16D7dDdc1de2dEa91A507a9f244015'
   async created() {
-    const t = await MyContract.methods.getAllHouses().call()
-    console.log('test', t)
+    console.log('this.$store', this.$MyContract)
+    const t = await this.$MyContract.methods.getAllHouses().call()
+    const o = await this.$MyContract.methods.getHousesByUser().call()
+    console.log('default', this.$Web3Eth.defaultAccount)
+    console.log('t', t)
+    console.log('o', o)
+  }
+  mounted() {
   }
 
   async createHouse() {
     console.log('this.address', this.address)
     console.log('this.size', this.size)
     console.log('this.price', this.price)
-    await MyContract.methods.createHouse(this.price, this.address, this.size).send({
-      from: this.ContractAddress
-    })
+    try {
+      const t = await this.$MyContract.methods.createHouse(2, this.address, 4).send({
+        from: this.$Web3Eth.defaultAccount,
+        value: this.$Web3.utils.toWei('2', "ether")
+      })
+      console.log('t',t)
+    } catch(error) {
+      console.log(error)
+    }
   }
 }
 </script>
