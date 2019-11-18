@@ -27,11 +27,42 @@
     }
   })
   export default class App extends Vue {
-    mounted() {
-      console.log('this', this)
-      console.log('this.$Web3', this.$Web3)
-      console.log('this.$Web3Eth', this.$Web3Eth)
-      console.log('this.$MyContract', this.$MyContract)
+    async mounted() {
+      console.log("this.$Web3", this.$Web3)
+      console.log("this.$Web3Eth", this.$Web3Eth)
+      console.log("this.$MyContract", this.$MyContract)
+
+      try {
+        const user = await this.$MyContract.methods.getUserByAddress(this.$Web3Eth.defaultAccount).call()
+        if (user.publicAddress == "0x0000000000000000000000000000000000000000") {
+          this.$buefy.dialog.prompt({
+            type: "is-info",
+            message: "No account was find, please choose your pseudo",
+            title: "Choose your pseudo",
+            inputAttrs: {
+              placeholder: "e.g. Walter",
+              maxlength: 10
+            },
+            trapFocus: true,
+            onConfirm: async (value) => {
+              this.$buefy.toast.open(`Your name is: ${value}`)
+              await this.$MyContract.methods.createUser(value).send({
+                from: this.$Web3Eth.defaultAccount
+              })
+            }
+          })
+          console.log("user", user)
+        }
+
+        console.log('user', user)
+
+        const event = await this.$MyContract.events.NewUser()
+        event.on('data', (user: any) => {
+            console.log('event', user)
+        })
+      } catch (error) {
+        console.log("APP : error", error)
+      }
     }
   }
 </script>

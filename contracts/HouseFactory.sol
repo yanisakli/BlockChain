@@ -5,6 +5,7 @@ contract HouseFactory {
     struct User {
         string name;
         address publicAddress;
+        bool flag;
     }
 
     struct House {
@@ -16,6 +17,7 @@ contract HouseFactory {
     }
 
     event NewHouse(uint houseId, uint price, string postalAddress, uint size);
+    event NewUser(User user);
     event ChangeOwner(House house);
 
     User[] Users;
@@ -32,9 +34,20 @@ contract HouseFactory {
         emit NewHouse(id, price, postalAddress, size);
     }
 
-    function createUser(string memory name) public {
-        uint id = Users.push(User(name, msg.sender)) - 1;
+    function createUser(string memory name) payable public {
+        User memory user = User(name, msg.sender, true);
+        uint id = Users.push(user) - 1;
         userIdToUser[msg.sender] = Users[id];
+        emit NewUser(user);
+    }
+
+    function getAllUser() public view returns (User[] memory) {
+        return Users;
+    }
+
+    function getUserByAddress(address userAddress) public view returns (User memory) {
+        User memory user = userIdToUser[userAddress];
+        return user;
     }
 
     function getHousesByUser() public view returns (House[] memory) {

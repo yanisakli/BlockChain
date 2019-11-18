@@ -6,11 +6,7 @@
         <section class="section">
             <div class="container">
                 <h1 class="title has-text-left">Travelling around the world </h1>
-                <div class="columns houses">
-                    <div v-for="(index, i) in 10" :key="index" class="column is-3">
-                        <HouseComponent v-bind:key="index"></HouseComponent>
-                    </div>
-                </div>
+                <AppHouse></AppHouse>
             </div>
         </section>
     </div>
@@ -20,13 +16,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 import HeroComponent from '@/components/HeroComponent.vue'
 import NavbarComponent from '@/components/NavbarComponent.vue'
-import HouseComponent from '@/components/HouseComponent.vue'
+import AppHouse from './AppHouse.vue'
 
 @Component({
   components: {
     HeroComponent,
     NavbarComponent,
-    HouseComponent
+    AppHouse
   },
 })
 export default class AppHome extends Vue {}

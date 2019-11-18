@@ -12,12 +12,11 @@
                             </div>
                             <div class="body-content">
                             <span class="has-text-centered">
-                                <p class="has-text-white subtitle">Buy</p>
                                 <b-button type="is-success">I am interessted</b-button>
                             </span>
                             </div>
                             <div class="footer-content">
-                                <span class="has-text-white subtitle">1200 Ethereum</span>
+                                <span class="has-text-white subtitle">{{ price }} Ethereum</span>
                             </div>
                         </div>
                         <div v-else class="default-content">
@@ -25,10 +24,10 @@
 
                             </div>
                             <div class="body-content">
-                                <span class="has-text-white subtitle house-name">St Pierre Et Miquelon</span>
+                                <span class="has-text-white subtitle house-name">{{ address }}</span>
                             </div>
                             <div class="footer-content">
-                                <span class="has-text-white subtitle">1200 Ethereum</span>
+                                <span class="has-text-white subtitle">{{ price }} Ethereum</span>
                             </div>
                         </div>
                     </transition>
@@ -43,7 +42,22 @@
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
 
-  @Component
+  @Component({
+    props: {
+      id: {
+        type: String,
+        required: true
+      },
+      address: {
+        type: String,
+        required: true
+      },
+      price: {
+        type: String,
+        required: true
+      }
+    },
+  })
   export default class HouseComponent extends Vue {
     isHovered = false
   }

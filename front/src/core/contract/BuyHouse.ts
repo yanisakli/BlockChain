@@ -16,13 +16,9 @@ export default class BuyHouse {
     this.Web3Eth = this.Web3.eth
     this.MyContract = new this.Web3Eth.Contract(abi)
     this.MyContract.options.address = this.ContractAddress
-    this.setDefaultAccount().then(address => {
-      console.log('address', address)
-      this.Web3Eth.defaultAccount = address
-    })
   }
 
-  private async setDefaultAccount() {
+  public async getDefaultAccount() {
     const defaultAddress = await this.Web3Eth.getAccounts()
     return defaultAddress[0]
   }

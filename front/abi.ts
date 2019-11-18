@@ -35,6 +35,11 @@ const abi: any = [
 								"internalType": "address",
 								"name": "publicAddress",
 								"type": "address"
+							},
+							{
+								"internalType": "bool",
+								"name": "flag",
+								"type": "bool"
 							}
 						],
 						"internalType": "struct HouseFactory.User",
@@ -83,6 +88,36 @@ const abi: any = [
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "publicAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "flag",
+						"type": "bool"
+					}
+				],
+				"indexed": false,
+				"internalType": "struct HouseFactory.User",
+				"name": "user",
+				"type": "tuple"
+			}
+		],
+		"name": "NewUser",
+		"type": "event"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
@@ -102,6 +137,11 @@ const abi: any = [
 				"internalType": "address",
 				"name": "publicAddress",
 				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "flag",
+				"type": "bool"
 			}
 		],
 		"payable": false,
@@ -144,8 +184,78 @@ const abi: any = [
 		],
 		"name": "createUser",
 		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getAllUser",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "publicAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "flag",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct HouseFactory.User[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserByAddress",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "publicAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "flag",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct HouseFactory.User",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -186,6 +296,11 @@ const abi: any = [
 								"internalType": "address",
 								"name": "publicAddress",
 								"type": "address"
+							},
+							{
+								"internalType": "bool",
+								"name": "flag",
+								"type": "bool"
 							}
 						],
 						"internalType": "struct HouseFactory.User",
@@ -246,6 +361,11 @@ const abi: any = [
 								"internalType": "address",
 								"name": "publicAddress",
 								"type": "address"
+							},
+							{
+								"internalType": "bool",
+								"name": "flag",
+								"type": "bool"
 							}
 						],
 						"internalType": "struct HouseFactory.User",
@@ -300,6 +420,11 @@ const abi: any = [
 								"internalType": "address",
 								"name": "publicAddress",
 								"type": "address"
+							},
+							{
+								"internalType": "bool",
+								"name": "flag",
+								"type": "bool"
 							}
 						],
 						"internalType": "struct HouseFactory.User",

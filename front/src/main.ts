@@ -10,14 +10,19 @@ Vue.config.productionTip = false
 
 const BuyHouseContract = new BuyHouse()
 
-Vue.prototype.$Web3 = BuyHouseContract.Web3
-Vue.prototype.$Web3Eth = BuyHouseContract.Web3Eth
-Vue.prototype.$MyContract = BuyHouseContract.MyContract
+BuyHouseContract.getDefaultAccount().then(defaultAccount => {
+  BuyHouseContract.Web3Eth.defaultAccount = defaultAccount
+  console.log('MAIN : BuyHouseContract.Web3Eth', defaultAccount)
 
-Vue.use(Buefy)
+  Vue.prototype.$Web3 = BuyHouseContract.Web3
+  Vue.prototype.$Web3Eth = BuyHouseContract.Web3Eth
+  Vue.prototype.$MyContract = BuyHouseContract.MyContract
 
-const vue = new Vue({
-  router,
-  store: Store,
-  render: (h) => h(App),
-}).$mount('#app')
+  Vue.use(Buefy)
+
+  new Vue({
+    router,
+    store: Store,
+    render: (h) => h(App),
+  }).$mount('#app')
+})

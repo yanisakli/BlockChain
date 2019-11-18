@@ -18,10 +18,10 @@
         </template>
 
         <template slot="end">
-            <b-navbar-item tag="div">
+            <b-navbar-item tag="div" v-if="$Web3Eth.defaultAccount">
                 <div class="buttons">
                     You are connected has:
-                    <strong class="tag">{{ $store.state.defaultAddressKey }}</strong>
+                    <strong class="tag">{{ $Web3Eth.defaultAccount }}</strong>
                 </div>
             </b-navbar-item>
         </template>
@@ -33,8 +33,10 @@
 
   @Component
   export default class NavbarComponent extends Vue {
+    currentAccount: string | null = null
     mounted() {
-      console.log('NavbarComponent: store', this.$store.state.defaultAddressKey)
+      console.log('NavbarComponent : this.$Web3Eth', this.$Web3Eth)
+      this.currentAccount = this.$Web3Eth.defaultAccount
     }
   }
 </script>
