@@ -46,9 +46,14 @@
             trapFocus: true,
             onConfirm: async (value) => {
               this.$buefy.toast.open(`Your name is: ${value}`)
-              await this.$MyContract.methods.createUser(value).send({
-                from: this.$Web3Eth.defaultAccount
-              })
+              console.log('this.$Web3Eth.defaultAccount', this.$Web3Eth.defaultAccount)
+              try {
+                await this.$MyContract.methods.createUser(value).send({
+                  from: this.$Web3Eth.defaultAccount
+                })
+              } catch(e) {
+                console.log('Error', e)
+              }
             }
           })
           console.log("user", user)

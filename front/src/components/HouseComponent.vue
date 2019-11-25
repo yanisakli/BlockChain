@@ -12,22 +12,22 @@
                             </div>
                             <div class="body-content">
                             <span class="has-text-centered">
-                                <b-button type="is-success">I am interessted</b-button>
+                                <b-button tag="router-link" :to="{ name: 'AppOneHouse', params: {id: House.id} }" type="is-success">I am interested</b-button>
                             </span>
                             </div>
                             <div class="footer-content">
-                                <span class="has-text-white subtitle">{{ price }} Ethereum</span>
+                                <span class="has-text-white subtitle">{{ House.price }} Ethereum</span>
                             </div>
                         </div>
                         <div v-else class="default-content">
                             <div class="head-content">
-
+                                <span class="has-text-white subtitle">{{ House.country }}</span>
                             </div>
                             <div class="body-content">
-                                <span class="has-text-white subtitle house-name">{{ address }}</span>
+                                <span class="has-text-white subtitle house-name">{{ House.postalAddress }}</span>
                             </div>
                             <div class="footer-content">
-                                <span class="has-text-white subtitle">{{ price }} Ethereum</span>
+                                <span class="has-text-white subtitle">{{ House.price }} Ethereum</span>
                             </div>
                         </div>
                     </transition>
@@ -40,25 +40,12 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component, Prop, Vue } from "vue-property-decorator"
+  import { House } from '@/definitions'
 
-  @Component({
-    props: {
-      id: {
-        type: String,
-        required: true
-      },
-      address: {
-        type: String,
-        required: true
-      },
-      price: {
-        type: String,
-        required: true
-      }
-    },
-  })
+  @Component
   export default class HouseComponent extends Vue {
+    @Prop() House!: House
     isHovered = false
   }
 </script>

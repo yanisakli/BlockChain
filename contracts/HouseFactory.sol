@@ -11,12 +11,26 @@ contract HouseFactory {
     struct House {
         uint id;
         uint price;
+        string country;
+        string disponibility;
         string postalAddress;
+        uint nbRoom;
+        uint nbPiece;
         uint size;
         User owner;
     }
 
-    event NewHouse(uint houseId, uint price, string postalAddress, uint size);
+    struct RawHouse {
+        uint price;
+        string country;
+        string disponibility;
+        string postalAddress;
+        uint nbRoom;
+        uint nbPiece;
+        uint size;
+    }
+
+    event NewHouse(House house);
     event NewUser(User user);
     event ChangeOwner(House house);
 
@@ -26,12 +40,20 @@ contract HouseFactory {
     mapping(address => House[]) userIdToHouse;
 
 
-    function createHouse(uint price, string memory postalAddress, uint size) public payable {
+    function createHouse(RawHouse memory rawHouse) public payable {
         uint id = uint(keccak256(abi.encodePacked(msg.sender)));
-        House memory newHouse = House(id, price, postalAddress, size, userIdToUser[msg.sender]);
+        House memory newHouse = House(id,
+            rawHouse.price,
+            rawHouse.country,
+            rawHouse.disponibility,
+            rawHouse.postalAddress,
+            rawHouse.nbRoom,
+            rawHouse.nbPiece,
+            rawHouse.size,
+            userIdToUser[msg.sender]);
         Houses.push(newHouse);
         userIdToHouse[msg.sender].push(newHouse);
-        emit NewHouse(id, price, postalAddress, size);
+        emit NewHouse(newHouse);
     }
 
     function createUser(string memory name) payable public {
@@ -68,10 +90,13 @@ contract HouseFactory {
         return Houses;
     }
 
-    function setHouseOwner(uint _houseId) public {
+    function setHouseOwner(uint _houseId) payable public {
         uint houseId = getHouseId(_houseId);
         User memory user = userIdToUser[msg.sender];
         House memory house = Houses[houseId];
+
+        // require(house.owner.publicAddress == user.publicAddress, "Cannot be the same user");
+
         house.owner = user;
         Houses[houseId] = house;
         emit ChangeOwner(house);

@@ -1,8 +1,16 @@
 <template>
     <div class="columns houses">
-        <div v-for="(house, index) in houses" :key="index" class="column is-3">
-            <HouseComponent v-bind:key="index" :address="house.postalAddress" :price="house.price" :id="house.id"></HouseComponent>
-        </div>
+        <template v-if="houses && houses.length > 0">
+            <div v-for="(house, index) in houses" :key="index" class="column is-3">
+                <HouseComponent v-bind:key="index" :house="house"></HouseComponent>
+            </div>
+        </template>
+        <template v-else>
+            <div class="column is-offset-4 is-4">
+                <h2 class="subtitle">No House was found</h2>
+                <b-button type="is-success" class="btn-action" tag="router-link" :to="{name: 'AppNewHouse'}">Share house</b-button>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -19,11 +27,10 @@ import HouseComponent from '@/components/HouseComponent.vue'
 })
 export default class AppHouse extends Vue {
   houses: Array<any> = []
+
   async mounted(){
     try {
-      const allHouses = await this.getAllHouses()
-      console.log('allHouses', allHouses)
-      this.houses = allHouses
+      this.houses = await this.getAllHouses()
     } catch(error) {
       console.log('error', error)
     }

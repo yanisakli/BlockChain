@@ -16,8 +16,28 @@ const abi: any = [
 					},
 					{
 						"internalType": "string",
+						"name": "country",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "disponibility",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "postalAddress",
 						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbRoom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbPiece",
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
@@ -60,28 +80,74 @@ const abi: any = [
 		"anonymous": false,
 		"inputs": [
 			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "country",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "disponibility",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "postalAddress",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbRoom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbPiece",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "size",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "address",
+								"name": "publicAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "bool",
+								"name": "flag",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct HouseFactory.User",
+						"name": "owner",
+						"type": "tuple"
+					}
+				],
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "houseId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "postalAddress",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "size",
-				"type": "uint256"
+				"internalType": "struct HouseFactory.House",
+				"name": "house",
+				"type": "tuple"
 			}
 		],
 		"name": "NewHouse",
@@ -152,19 +218,46 @@ const abi: any = [
 		"constant": false,
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "postalAddress",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "size",
-				"type": "uint256"
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "country",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "disponibility",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "postalAddress",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbRoom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbPiece",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "size",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct HouseFactory.RawHouse",
+				"name": "rawHouse",
+				"type": "tuple"
 			}
 		],
 		"name": "createHouse",
@@ -277,8 +370,28 @@ const abi: any = [
 					},
 					{
 						"internalType": "string",
+						"name": "country",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "disponibility",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "postalAddress",
 						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbRoom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbPiece",
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
@@ -342,8 +455,28 @@ const abi: any = [
 					},
 					{
 						"internalType": "string",
+						"name": "country",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "disponibility",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "postalAddress",
 						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbRoom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbPiece",
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
@@ -401,8 +534,28 @@ const abi: any = [
 					},
 					{
 						"internalType": "string",
+						"name": "country",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "disponibility",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
 						"name": "postalAddress",
 						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbRoom",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "nbPiece",
+						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
@@ -452,8 +605,8 @@ const abi: any = [
 		],
 		"name": "setHouseOwner",
 		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
+		"payable": true,
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{

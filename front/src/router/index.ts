@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AppHome from '@/views/AppHome.vue'
 import AppNewHouse from '@/views/AppNewHouse.vue'
+import AppOneHouse from '@/views/AppOneHouse.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/share',
     name: 'AppNewHouse',
     component: AppNewHouse
+  },
+  {
+    path: '/house/:id',
+    name: 'AppOneHouse',
+    component: AppOneHouse
   }
 ]
 
