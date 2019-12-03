@@ -36,13 +36,13 @@ contract HouseFactory {
 
     User[] Users;
     House[] Houses;
+    uint public houseLength = 0;
     mapping(address => User) public userIdToUser;
     mapping(address => House[]) userIdToHouse;
 
 
     function createHouse(RawHouse memory rawHouse) public payable {
-        uint id = uint(keccak256(abi.encodePacked(msg.sender)));
-        House memory newHouse = House(id,
+        House memory newHouse = House(houseLength,
             rawHouse.price,
             rawHouse.country,
             rawHouse.disponibility,
@@ -51,7 +51,7 @@ contract HouseFactory {
             rawHouse.nbPiece,
             rawHouse.size,
             userIdToUser[msg.sender]);
-        Houses.push(newHouse);
+        houseLength = Houses.push(newHouse);
         userIdToHouse[msg.sender].push(newHouse);
         emit NewHouse(newHouse);
     }
@@ -94,8 +94,6 @@ contract HouseFactory {
         uint houseId = getHouseId(_houseId);
         User memory user = userIdToUser[msg.sender];
         House memory house = Houses[houseId];
-
-        // require(house.owner.publicAddress == user.publicAddress, "Cannot be the same user");
 
         house.owner = user;
         Houses[houseId] = house;

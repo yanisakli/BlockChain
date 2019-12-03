@@ -31,6 +31,7 @@ export default class AppHouse extends Vue {
   async mounted(){
     try {
       this.houses = await this.getAllHouses()
+      console.log('allHouse', this.houses)
     } catch(error) {
       console.log('error', error)
     }

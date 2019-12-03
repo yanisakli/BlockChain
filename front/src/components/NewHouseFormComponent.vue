@@ -55,9 +55,9 @@
     }
 
     async createHouse() {
-      console.log("this.address", this.address)
-      console.log("this.size", this.size)
-      console.log("this.price", this.price)
+      console.log("this.address", this.defaultHouse.postalAddress)
+      console.log("this.defaultHouse.size", this.defaultHouse.size)
+      console.log("this.defaultHouse.price", this.defaultHouse.price)
       try {
         const t = await this.$MyContract.methods.createHouse(this.defaultHouse).send({
           from: this.$Web3Eth.defaultAccount

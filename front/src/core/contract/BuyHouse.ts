@@ -7,10 +7,11 @@ export default class BuyHouse {
   public Web3: Web3
   public Web3Eth: Eth
   MyContract: Contract;
-  private ContractAddress = '0xC15C0A0f3BDDF24BfD689C17E9b568830aA06f30'
+  private ContractAddress = process.env.VUE_APP_CONTRACT || '0x379c15ddA5BD82388e1f71d58DfA3ca9BAB1590e'
   private Network = 'http://localhost:7545'
 
   constructor() {
+    console.log('process.env.VUE_APP_CONTRACT', process.env.VUE_APP_CONTRACT)
     // @ts-ignore
     this.Web3 = new Web3(Web3.givenProvider || this.Network)
     this.Web3Eth = this.Web3.eth
