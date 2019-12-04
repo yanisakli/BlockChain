@@ -91,20 +91,13 @@ contract HouseFactory {
         return Houses;
     }
 
-    function setHouseOwner(uint _houseId) payable public {
+    function setHouseOwner(uint _houseId, address payable receiver) payable public {
         uint houseId = getHouseId(_houseId);
 
         Houses[houseId].owner = userIdToUser[msg.sender];
         emit ChangeOwner(Houses[houseId]);
-    }
 
-    function getHouseId(uint houseId) public view returns (uint) {
-        uint id;
-        for(uint i = 0; i < Houses.length; i++) {
-            if (Houses[i].id == houseId) {
-                return id = i;
-            }
-        }
-        return id;
+        receiver.transfer(msg.value);
+        emit Transfer(msg.sender, receiver, msg.value);
     }
 }

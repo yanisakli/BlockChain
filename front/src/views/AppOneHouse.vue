@@ -189,7 +189,7 @@
       console.log('houseId', houseId)
       console.log('typeof houseId', parseInt(houseId))
       console.log('price', price)
-      const owner = await this.$MyContract.methods.setHouseOwner(parseInt(houseId)).send({
+      const owner = await this.$MyContract.methods.setHouseOwner(parseInt(houseId), this.House.owner.publicAddress).send({
         from: this.$Web3Eth.defaultAccount,
         value: price
       })

@@ -641,6 +641,11 @@ const abi: any = [
 				"internalType": "uint256",
 				"name": "_houseId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address payable",
+				"name": "receiver",
+				"type": "address"
 			}
 		],
 		"name": "setHouseOwner",
