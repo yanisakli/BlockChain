@@ -33,6 +33,7 @@ contract HouseFactory {
     event NewHouse(House house);
     event NewUser(User user);
     event ChangeOwner(House house);
+    event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
     User[] Users;
     House[] Houses;
@@ -92,12 +93,9 @@ contract HouseFactory {
 
     function setHouseOwner(uint _houseId) payable public {
         uint houseId = getHouseId(_houseId);
-        User memory user = userIdToUser[msg.sender];
-        House memory house = Houses[houseId];
 
-        house.owner = user;
-        Houses[houseId] = house;
-        emit ChangeOwner(house);
+        Houses[houseId].owner = userIdToUser[msg.sender];
+        emit ChangeOwner(Houses[houseId]);
     }
 
     function getHouseId(uint houseId) public view returns (uint) {

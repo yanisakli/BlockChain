@@ -109,7 +109,6 @@
 
         this.House = house
 
-        console.log('this.House', this.House)
       } catch(error) {
         this.$buefy.toast.open({ type: "is-danger", message: "House cannot be found" })
         await this.$router.push('/')
@@ -136,7 +135,6 @@
 
           try {
             const owner = await this.changeOwner(this.House.id)
-            console.log('changeOwner', owner)
             this.$buefy.toast.open("User agreed")
           } catch(error) {
             console.log('onConfirm - error', error)
@@ -155,11 +153,47 @@
     }
 
     async changeOwner(houseId: string): Promise<any> {
-      const owner = await this.$MyContract.methods.setHouseOwner(houseId).send({
+
+      if (!this.House) {
+        this.$buefy.toast.open({
+          type: 'is-danger',
+          message: 'House was not found'
+        })
+        return
+      }
+
+      const price = this.House.price ? this.$Web3.utils.toWei(this.House.price.toString(), 'ether') : undefined
+
+      console.log('price', price)
+
+      if (!price) {
+        this.$buefy.toast.open({
+          type: 'is-danger',
+          message: 'Price was not found'
+        })
+        return
+      }
+
+      const currentBalance = this.$Web3.utils.fromWei(await this.$Web3Eth.getBalance(this.$Web3Eth.defaultAccount!))
+
+      if (currentBalance < this.House.price.toString(10)) {
+        this.$buefy.toast.open({
+          type: 'is-danger',
+          message: 'Your balance is too low'
+        })
+        return
+      }
+
+      console.log('this.House.owner.publicAddress', this.House.owner.publicAddress)
+      console.log('this.$Web3Eth.defaultAccount', this.$Web3Eth.defaultAccount)
+      console.log('houseId', houseId)
+      console.log('typeof houseId', parseInt(houseId))
+      console.log('price', price)
+      const owner = await this.$MyContract.methods.setHouseOwner(parseInt(houseId)).send({
         from: this.$Web3Eth.defaultAccount,
-        value: this.$Web3Eth
+        value: price
       })
-      console.log('changeOwner', owner)
+      console.log('owner', owner)
       return
     }
 
