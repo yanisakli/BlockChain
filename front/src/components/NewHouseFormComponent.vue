@@ -60,6 +60,8 @@
         await this.$MyContract.methods.createHouse(this.defaultHouse).send({
           from: this.$Web3Eth.defaultAccount
         })
+
+        await this.$router.push('/')
       } catch (error) {
         console.log(error)
       }

@@ -7,7 +7,7 @@
                 </div>
                 <div class="short-detail has-text-left">
                     <div class="content" v-if="House">
-                        <div>
+                        <div class="content">
                             <h1 class="title has-text-black">A beautiful appartment</h1>
                             <p class="subtitle has-text-black">
                                 <span>{{ House.postalAddress }}</span>,
@@ -18,12 +18,17 @@
                             <p class="subtitle has-text-right">Owner : {{ House.owner.name}}</p>
                             <p class="subtitle has-text-right label">Price : <b-tag rounded> {{ House.price }} Ethereum</b-tag></p>
                         </div>
-                        <div class="about">
+                        <div class="about content">
                             <h2 class="subtitle">About</h2>
                             <br>
                             <p>The newest coworking space around, with breathtaking views of the Thames! Us&Co is a
                                 spacious and comfortable workspace with fantastic amenities including a coffee bar,
                                 outdoor patio seating for those sunny days, and of course super fast wifi.</p>
+                        </div>
+                        <div class="has-text-centered">
+                            <b-button type="is-success" v-on:click="confirmCustom" :disabled="isOwnHouse">
+                                {{ isOwnHouse ? 'Tsss... You can\'t buy your own house !' : 'Available now ! Buy it'}}
+                            </b-button>
                         </div>
                         <hr>
                         <nav class="level">
@@ -47,9 +52,6 @@
                             </div>
                         </nav>
                         <hr>
-                        <div class="has-text-centered">
-                            <b-button type="is-success" v-on:click="confirmCustom">Available now ! Buy it</b-button>
-                        </div>
                         <div class="other">
                             <h2 class="subtitle">Others</h2>
                             <br>
@@ -96,6 +98,7 @@
   export default class AppOneHouse extends Vue {
     private HouseID?: string
     private House: House | null = null
+    private isOwnHouse: boolean = false
 
     created() {
       this.HouseID = this.$route.params ? this.$route.params.id : undefined
@@ -105,7 +108,16 @@
       try {
         const house = this.HouseID ? this.dtoHouse(await this.getHouseById(this.HouseID)) : undefined
 
-        if (!house) return this.$buefy.toast.open({ type: "is-danger", message: "No House was found" })
+        if (!house || house.id === '0' && house.price === '0') {
+          this.$buefy.toast.open({ type: "is-danger", message: "No House was found" })
+          return await this.$router.push('/')
+        }
+
+        console.log('House', house)
+
+        this.isOwnHouse = house.owner.publicAddress === this.$Web3Eth.defaultAccount
+
+        console.log('isOwnHouse', this.isOwnHouse)
 
         this.House = house
 

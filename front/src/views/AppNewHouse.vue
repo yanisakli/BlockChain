@@ -24,6 +24,7 @@
     }
   })
   export default class AppNewHouse extends Vue {
+
   }
 </script>
 

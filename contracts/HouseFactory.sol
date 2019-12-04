@@ -92,10 +92,9 @@ contract HouseFactory {
     }
 
     function setHouseOwner(uint _houseId, address payable receiver) payable public {
-        uint houseId = getHouseId(_houseId);
 
-        Houses[houseId].owner = userIdToUser[msg.sender];
-        emit ChangeOwner(Houses[houseId]);
+        Houses[_houseId].owner = userIdToUser[msg.sender];
+        emit ChangeOwner(Houses[_houseId]);
 
         receiver.transfer(msg.value);
         emit Transfer(msg.sender, receiver, msg.value);
