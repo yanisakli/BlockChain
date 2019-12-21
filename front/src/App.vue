@@ -18,58 +18,63 @@
 </template>
 
 <script lang="ts">
-  import NavbarComponent from "@/components/NavbarComponent.vue"
-  import { Component, Vue } from "vue-property-decorator"
+	import NavbarComponent from '@/components/NavbarComponent.vue'
+	import { Component, Vue } from 'vue-property-decorator'
 
-  @Component({
-    components: {
-      NavbarComponent
-    }
-  })
-  export default class App extends Vue {
-    async mounted() {
-      console.log("this.$Web3", this.$Web3)
-      console.log("this.$Web3Eth", this.$Web3Eth)
-      console.log("this.$MyContract", this.$MyContract)
+	@Component({
+		components: {
+			NavbarComponent
+		}
+	})
+	export default class App extends Vue {
+		async mounted() {
+			console.log('this.$Web3', this.$Web3)
+			console.log('this.$Web3Eth', this.$Web3Eth)
+			console.log('this.$MyContract', this.$MyContract)
 
-      try {
-        const user = await this.$MyContract.methods.getUserByAddress(this.$Web3Eth.defaultAccount).call()
-        if (user.publicAddress == "0x0000000000000000000000000000000000000000") {
-          this.$buefy.dialog.prompt({
-            type: "is-info",
-            message: "No account was find, please choose your pseudo",
-            title: "Choose your pseudo",
-            inputAttrs: {
-              placeholder: "e.g. Walter",
-              maxlength: 10
-            },
-            trapFocus: true,
-            onConfirm: async (value) => {
-              this.$buefy.toast.open(`Your name is: ${value}`)
-              console.log('this.$Web3Eth.defaultAccount', this.$Web3Eth.defaultAccount)
-              try {
-                await this.$MyContract.methods.createUser(value).send({
-                  from: this.$Web3Eth.defaultAccount
-                })
-              } catch(e) {
-                console.log('Error', e)
-              }
-            }
-          })
-          console.log("user", user)
-        }
+			try {
+				const user = await this.$MyContract.methods.getUserByAddress(this.$Web3Eth.defaultAccount).call()
+				if (user.publicAddress == '0x0000000000000000000000000000000000000000') {
+					this.$buefy.dialog.prompt({
+						type: 'is-info',
+						message: 'No account was found, please choose your pseudo',
+						title: 'Choose your pseudo',
+						inputAttrs: {
+							placeholder: 'e.g. Walter',
+							maxlength: 10
+						},
+						trapFocus: true,
+						onConfirm: async (value) => {
+							console.log('this.$Web3Eth.defaultAccount', this.$Web3Eth.defaultAccount)
+							console.log('this.$MyContract.methods', this.$MyContract.methods)
+							try {
+								await this.$MyContract.methods.createUser(value).send({
+									from: this.$Web3Eth.defaultAccount
+								})
+								this.$buefy.toast.open(`Your name is: ${value}`)
+							} catch (e) {
+								console.log('Error', e)
+								this.$buefy.toast.open({
+                                  type: "is-danger",
+                                  message: "Une erreur est survenu lors de la création du compte"
+                                })
+							}
+						}
+					})
+					console.log('user', user)
+				}
 
-        console.log('user', user)
+				console.log('user', user)
 
-        const event = await this.$MyContract.events.NewUser()
-        event.on('data', (user: any) => {
-            console.log('event', user)
-        })
-      } catch (error) {
-        console.log("APP : error", error)
-      }
-    }
-  }
+				const event = await this.$MyContract.events.NewUser()
+				event.on('data', (user: any) => {
+					console.log('event', user)
+				})
+			} catch (error) {
+				console.log('APP : error', error)
+			}
+		}
+	}
 </script>
 
 <style lang="scss">

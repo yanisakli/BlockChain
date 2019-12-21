@@ -18,12 +18,23 @@
         </template>
 
         <template slot="end">
-            <b-navbar-item tag="div" v-if="$Web3Eth.defaultAccount">
-                <div class="buttons">
-                    You are connected has:
-                    <strong class="tag">{{ $Web3Eth.defaultAccount }}</strong>
-                </div>
-            </b-navbar-item>
+            <template v-if="$Web3Eth.defaultAccount">
+                <b-navbar-item tag="div">
+                    <div class="buttons">
+                        You are connected has:
+                        <strong class="tag">{{ $Web3Eth.defaultAccount }}</strong>
+                    </div>
+                </b-navbar-item>
+            </template>
+            <template v-else>
+                <b-navbar-item tag="div">
+                    <div class="buttons">
+                        <b-tag type="is-danger" class="">
+                            Vous n'êtes pas encore connecté
+                        </b-tag>
+                    </div>
+                </b-navbar-item>
+            </template>
         </template>
     </b-navbar>
 </template>
@@ -35,7 +46,7 @@
   export default class NavbarComponent extends Vue {
     currentAccount: string | null = null
     mounted() {
-      console.log('NavbarComponent : this.$Web3Eth', this.$Web3Eth)
+      console.log('NavbarComponent : this.$Web3Eth', this.$Web3Eth.defaultAccount)
       this.currentAccount = this.$Web3Eth.defaultAccount
     }
   }
