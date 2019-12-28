@@ -1,95 +1,96 @@
 <template>
     <div id="one-house">
-        <div class="columns">
-            <div class="column is-offset-2 is-8" id="detail">
-                <div class="hero-detail">
-                    <div style="height: 280px"></div>
-                </div>
-                <div class="short-detail has-text-left">
-                    <div v-if="House">
-                        <div class="content principale">
-                            <h1 class="title has-text-black">A beautiful appartment</h1>
-                            <p class="subtitle has-text-black">
-                                <span>{{ House.postalAddress }}</span>,
-                                <span class="subtitle has-text-black is-bold">{{ House.country }}</span>
-                            </p>
-                        </div>
-                        <div>
-                            <p class="has-text-right"><span class="is-bold">Owner</span> : {{ House.owner.name}}</p>
-                            <p class="has-text-right"><span class="is-bold">Price : </span>
-                                <b-tag rounded> {{ House.price }} Ethereum</b-tag>
-                            </p>
-                        </div>
-                        <div class="about content">
-                            <h2 class="subtitle">About</h2>
-                            <br>
-                            <p>The newest coworking space around, with breathtaking views of the Thames! Us&Co is a
-                                spacious and comfortable workspace with fantastic amenities including a coffee bar,
-                                outdoor patio seating for those sunny days, and of course super fast wifi.</p>
-                        </div>
-                        <div class="has-text-centered">
-                            <template v-if="isConnected">
-                                <b-button type="is-success" v-on:click="confirmCustom" :disabled="isOwnHouse">
-                                    {{ isOwnHouse ? "Tsss... You can't buy your own house !" : 'Available now ! Buy
-                                    it'}}
-                                </b-button>
-                            </template>
-                            <template v-else>
-                                <b-button type="is-danger" disabled="isOwnHouse">
-                                    Vous devez être connecté pour acheter cette maison
-                                </b-button>
-                            </template>
-                        </div>
-                        <hr>
-                        <nav class="level">
-                            <div class="level-item has-text-centered">
-                                <div>
-                                    <p class="heading">Size (m2)</p>
-                                    <p class="title">{{ House.size }}</p>
-                                </div>
+        <div class="section">
+            <div class="columns">
+                <div class="column is-offset-2 is-8" id="detail">
+                    <div class="hero-detail">
+                        <div style="height: 280px"></div>
+                    </div>
+                    <div class="short-detail has-text-left">
+                        <div v-if="House">
+                            <div class="content principale">
+                                <h1 class="title has-text-black">A beautiful appartment</h1>
+                                <p class="subtitle has-text-black">
+                                    <span>{{ House.postalAddress }}</span>,
+                                    <span class="subtitle has-text-black is-bold">{{ House.country }}</span>
+                                </p>
                             </div>
-                            <div class="level-item has-text-centered">
-                                <div>
-                                    <p class="heading">Nb bedroom</p>
-                                    <p class="title">{{ House.nbRoom }}</p>
-                                </div>
+                            <div>
+                                <p class="has-text-right"><span class="is-bold">Owner</span> : {{ House.owner.name}}</p>
+                                <p class="has-text-right"><span class="is-bold">Price : </span>
+                                    <b-tag rounded> {{ House.price }} Ethereum</b-tag>
+                                </p>
                             </div>
-                            <div class="level-item has-text-centered">
-                                <div>
-                                    <p class="heading">Nb room</p>
-                                    <p class="title">{{ House.nbPiece }}</p>
-                                </div>
+                            <div class="about content">
+                                <h2 class="subtitle">About</h2>
+                                <br>
+                                <p>The newest coworking space around, with breathtaking views of the Thames! Us&Co is a
+                                    spacious and comfortable workspace with fantastic amenities including a coffee bar,
+                                    outdoor patio seating for those sunny days, and of course super fast wifi.</p>
                             </div>
-                        </nav>
-                        <hr>
-                        <div class="other">
-                            <h2 class="subtitle">Others</h2>
-                            <br>
-                            <div class="other-item columns">
-                                <div class="column is-2">
-                                    <p>Coffee</p>
-                                </div>
-                                <div class="column is-offset-2 is-8">
-                                    <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the kitchen
-                                        and make yourself a cup of coffee.</p>
-                                </div>
+                            <div class="has-text-centered">
+                                <template v-if="isConnected">
+                                    <b-button type="is-success" v-on:click="confirmCustom" :disabled="isOwnHouse">
+                                        {{ isOwnHouse ? "Tsss... You can't buy your own house !" : 'Available now ! Buy it' }}
+                                    </b-button>
+                                </template>
+                                <template v-else>
+                                    <b-button type="is-danger" disabled="isOwnHouse">
+                                        Vous devez être connecté pour acheter cette maison
+                                    </b-button>
+                                </template>
                             </div>
-                            <div class="other-item columns">
-                                <div class="column is-2">
-                                    <p>Printing</p>
+                            <hr>
+                            <nav class="level">
+                                <div class="level-item has-text-centered">
+                                    <div>
+                                        <p class="heading">Size (m2)</p>
+                                        <p class="title">{{ House.size }}</p>
+                                    </div>
                                 </div>
-                                <div class="column is-offset-2 is-8">
-                                    <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the kitchen
-                                        and make yourself a cup of coffee.</p>
+                                <div class="level-item has-text-centered">
+                                    <div>
+                                        <p class="heading">Nb bedroom</p>
+                                        <p class="title">{{ House.nbRoom }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="other-item columns">
-                                <div class="column is-2">
-                                    <p>Microwaves</p>
+                                <div class="level-item has-text-centered">
+                                    <div>
+                                        <p class="heading">Nb room</p>
+                                        <p class="title">{{ House.nbPiece }}</p>
+                                    </div>
                                 </div>
-                                <div class="column is-offset-2 is-8">
-                                    <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the kitchen
-                                        and make yourself a cup of coffee.</p>
+                            </nav>
+                            <hr>
+                            <div class="other">
+                                <h2 class="subtitle">Others</h2>
+                                <br>
+                                <div class="other-item columns">
+                                    <div class="column is-2">
+                                        <p>Coffee</p>
+                                    </div>
+                                    <div class="column is-offset-2 is-8">
+                                        <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the kitchen
+                                            and make yourself a cup of coffee.</p>
+                                    </div>
+                                </div>
+                                <div class="other-item columns">
+                                    <div class="column is-2">
+                                        <p>Printing</p>
+                                    </div>
+                                    <div class="column is-offset-2 is-8">
+                                        <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the kitchen
+                                            and make yourself a cup of coffee.</p>
+                                    </div>
+                                </div>
+                                <div class="other-item columns">
+                                    <div class="column is-2">
+                                        <p>Microwaves</p>
+                                    </div>
+                                    <div class="column is-offset-2 is-8">
+                                        <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the kitchen
+                                            and make yourself a cup of coffee.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +159,7 @@
 						console.log('onConfirm - error', error)
 						this.$buefy.toast.open({
 							type: 'is-danger',
-							message: 'Error on change owner'
+							message: error
 						})
 						return
 					}
@@ -195,7 +196,7 @@
 					type: 'is-danger',
 					message: 'House was not found'
 				})
-				return
+				return Promise.reject('House was not found')
 			}
 
 			const price = this.House.price ? this.$Web3.utils.toWei(this.House.price.toString(), 'ether') : undefined
@@ -203,21 +204,13 @@
 			console.log('price', price)
 
 			if (!price) {
-				this.$buefy.toast.open({
-					type: 'is-danger',
-					message: 'Price was not found'
-				})
-				return
+				return Promise.reject('Price was not found')
 			}
 
 			const currentBalance = this.$Web3.utils.fromWei(await this.$Web3Eth.getBalance(this.$Web3Eth.defaultAccount!))
 
 			if (currentBalance < this.House.price.toString(10)) {
-				this.$buefy.toast.open({
-					type: 'is-danger',
-					message: 'Your balance is too low'
-				})
-				return
+				return Promise.reject('Your balance is too low')
 			}
 
 			console.log('this.House.owner.publicAddress', this.House.owner.publicAddress)
@@ -263,7 +256,7 @@
     }
 
     .hero-detail {
-        background: url('https://images.unsplash.com/photo-1443176161226-96cde1416c79');
+        background: url('../assets/house.jpg');
         background-position: center;
         height: 250px;
         background-size: cover;

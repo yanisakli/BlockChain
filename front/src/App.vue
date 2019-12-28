@@ -78,6 +78,8 @@
 </script>
 
 <style lang="scss">
+    @import "~bulma/sass/utilities/_all";
+
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -99,4 +101,7 @@
     {
         opacity: 0;
     }
+
+    @import "~bulma";
+    @import "~buefy/src/scss/buefy";
 </style>

@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </transition>
-                    <img src="https://nomadlist.com/assets/img/cities/mexico-city-mexico-600px.jpg"
+                    <img src="../assets/house.jpg"
                          class="image is-3by2" alt="">
                 </div>
             </div>

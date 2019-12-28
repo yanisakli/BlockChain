@@ -3,12 +3,12 @@
         <section id="hero" class="hero is-primary">
             <HeroComponent></HeroComponent>
         </section>
-        <section class="section">
+        <div class="section">
             <div class="container">
                 <h1 class="title has-text-left">Travelling around the world </h1>
                 <AppHouse></AppHouse>
             </div>
-        </section>
+        </div>
     </div>
 </template>
 
