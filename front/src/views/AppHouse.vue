@@ -8,40 +8,53 @@
         <template v-else>
             <div class="column is-offset-4 is-4">
                 <h2 class="subtitle">No House was found</h2>
-                <b-button type="is-success" class="btn-action" tag="router-link" :to="{name: 'AppNewHouse'}">Share house</b-button>
+                <b-button type="is-success" class="btn-action" tag="router-link" :to="{name: 'AppNewHouse'}">Share
+                    house
+                </b-button>
             </div>
         </template>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import HouseComponent from '@/components/HouseComponent.vue'
+	import { Component, Vue } from 'vue-property-decorator'
+	import HouseComponent from '@/components/HouseComponent.vue'
+		import { House } from '@/definitions'
 
-// TODO faire les appels au contrat
+	@Component({
+		components: {
+			HouseComponent
+		}
+	})
+	export default class AppHouse extends Vue {
+		houses: Array<any> = []
 
-@Component({
-  components: {
-    HouseComponent
-  }
-})
-export default class AppHouse extends Vue {
-  houses: Array<any> = []
+		async mounted() {
+			try {
+				this.houses = this.cleanData(await this.fetchAllHouses())
+                console.log('this.houses', this.houses)
+			} catch (error) {
+				console.log('error', error)
+			}
+		}
 
-  async mounted(){
-    try {
-      this.houses = await this.getAllHouses()
-      console.log('allHouse', this.houses)
-    } catch(error) {
-      console.log('error', error)
-    }
-  }
-  async getAllHouses() {
-    return await this.$MyContract.methods.getAllHouses().call()
-  }
-}
+		async fetchAllHouses() {
+			return await this.$MyContract.methods.getAllHouses().call()
+		}
+
+		// use to clean dirty data like House with no id, no flags
+		cleanData(houses: House[]): House[] {
+			console.log('cleanData', houses)
+			return houses.filter((house: any) => {
+				console.log('typeof', typeof house.id)
+				console.log('house.id', house.id !== '0')
+				console.log('house.price', house.price !== '0')
+                if (house.price !== '0') return house
+			})
+		}
+	}
 </script>
 
-<style scoped ="scss">
+<style scoped="scss">
 
 </style>

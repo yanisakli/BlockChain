@@ -7,8 +7,15 @@
                         @mouseleave="isHovered = false">
                     <transition name="slide-fade">
                         <div v-if="isHovered" class="hover-content">
-                            <div class="head-content">
-
+                            <div class="head-content is-flex">
+                                <b-tag type="is-primary">
+                                    <b-icon pack="fas" icon="flag" size="is-small"></b-icon>
+                                    {{ House.country }}
+                                </b-tag>
+                                <b-tag type="is-warning">
+                                    <b-icon pack="fas" icon="user" size="is-small"></b-icon>
+                                    {{ House.owner && House.owner.name || '' }}
+                                </b-tag>
                             </div>
                             <div class="body-content">
                             <span class="has-text-centered">
@@ -20,8 +27,11 @@
                             </div>
                         </div>
                         <div v-else class="default-content">
-                            <div class="head-content">
-                                <span class="has-text-white subtitle">{{ House.country }}</span>
+                            <div class="head-content is-flex">
+                                <b-tag type="is-warning">
+                                    <b-icon pack="fas" icon="user" size="is-small"></b-icon>
+                                    {{ House.owner && House.owner.name || '' }}
+                                </b-tag>
                             </div>
                             <div class="body-content">
                                 <span class="has-text-white subtitle house-name">{{ House.postalAddress }}</span>
@@ -66,7 +76,7 @@
         justify-content: space-between;
         align-items: center;
         position: absolute;
-        z-index: 999;
+        z-index: 2;
         width: 100%;
         height: 100%;
     }
@@ -81,5 +91,10 @@
     }
     p.title {
         margin: 0;
+    }
+    .head-content {
+        margin-top: .2em;
+        width: 100%;
+        justify-content: space-around;
     }
 </style>

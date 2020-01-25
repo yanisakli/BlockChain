@@ -1,5 +1,6 @@
 <template>
     <section class="section">
+        <GoBackComponent></GoBackComponent>
         <div class="columns">
             <div class="column is-offset-3 is-6 has-text-left">
                 <div class="box">
@@ -15,17 +16,19 @@
 </template>
 
 <script lang="ts">
-  import NewHouseFormComponent from "../components/NewHouseFormComponent.vue"
-  import { Component, Vue } from "vue-property-decorator"
+	import NewHouseFormComponent from '../components/NewHouseFormComponent.vue'
+	import { Component, Vue } from 'vue-property-decorator'
+	import GoBackComponent from '@/components/GoBackComponent.vue'
 
-  @Component({
-    components: {
-      NewHouseComponent: NewHouseFormComponent
-    }
-  })
-  export default class AppNewHouse extends Vue {
+	@Component({
+		components: {
+			NewHouseComponent: NewHouseFormComponent,
+			GoBackComponent: GoBackComponent
+		}
+	})
+	export default class AppNewHouse extends Vue {
 
-  }
+	}
 </script>
 
 <style scoped="scss">

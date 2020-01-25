@@ -26,7 +26,6 @@ const ProjectId = '68bfcafd4140410a946f788b01da2167'
 
 const web3 = new Web3(new Web3.providers.HttpProvider(this.RopstenNetwork))
 const from = web3.utils.toChecksumAddress('0x6e6297E5Da17e090c8392e291a6B8D7e83765749')
-console.log('from', from)
 
 module.exports = {
   /**

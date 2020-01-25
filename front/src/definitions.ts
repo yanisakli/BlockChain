@@ -15,7 +15,7 @@ export interface HouseWithoutUser {
   postalAddress: string;
   size: number;
   country: string;
-  disponibility: string;
+  disponibility: Date | string;
   nbRoom: number;
   nbPiece: number;
 }

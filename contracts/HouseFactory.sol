@@ -20,7 +20,7 @@ contract HouseFactory {
         User owner;
     }
 
-    struct RawHouse {
+    struct HouseWithoutOwner {
         uint price;
         string country;
         string disponibility;
@@ -34,6 +34,7 @@ contract HouseFactory {
     event NewUser(User user);
     event ChangeOwner(House house);
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
+    event HouseDeleted(uint houseId);
 
     User[] Users;
     House[] Houses;
@@ -42,7 +43,7 @@ contract HouseFactory {
     mapping(address => House[]) userIdToHouse;
 
 
-    function createHouse(RawHouse memory rawHouse) public payable {
+    function createHouse(HouseWithoutOwner memory rawHouse) public payable {
         House memory newHouse = House(houseLength,
             rawHouse.price,
             rawHouse.country,
@@ -75,6 +76,13 @@ contract HouseFactory {
 
     function getHousesByUser() public view returns (House[] memory) {
         return userIdToHouse[msg.sender];
+    }
+
+    function deleteOneHouse(uint houseId) payable public {
+        // require(msg.sender == Houses[houseId].owner.publicAddress, "Should be the same owner");
+
+        delete Houses[houseId];
+        emit HouseDeleted(houseId);
     }
 
     function getHouse(uint houseId) public view returns (House memory) {

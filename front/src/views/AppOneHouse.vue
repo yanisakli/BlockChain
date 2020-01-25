@@ -1,15 +1,27 @@
 <template>
     <div id="one-house">
         <div class="section">
+            <GoBackComponent></GoBackComponent>
             <div class="columns">
                 <div class="column is-offset-2 is-8" id="detail">
                     <div class="hero-detail">
                         <div style="height: 280px"></div>
                     </div>
+
                     <div class="short-detail has-text-left">
                         <div v-if="House">
                             <div class="content principale">
-                                <h1 class="title has-text-black">A beautiful appartment</h1>
+                                <div>
+                                    <h1 class="title has-text-black is-flex" style="justify-content: space-between;">
+                                        A beautiful appartment
+                                        <b-button
+                                                v-if="isOwnHouse"
+                                                type="is-danger"
+                                                v-on:click="deleteHouse">
+                                            Delete this house
+                                        </b-button>
+                                    </h1>
+                                </div>
                                 <p class="subtitle has-text-black">
                                     <span>{{ House.postalAddress }}</span>,
                                     <span class="subtitle has-text-black is-bold">{{ House.country }}</span>
@@ -18,7 +30,7 @@
                             <div>
                                 <p class="has-text-right"><span class="is-bold">Owner</span> : {{ House.owner.name}}</p>
                                 <p class="has-text-right"><span class="is-bold">Price : </span>
-                                    <b-tag rounded> {{ House.price }} Ethereum</b-tag>
+                                    <b-tag rounded type="is-primary"> {{ House.price }} Ethereum</b-tag>
                                 </p>
                             </div>
                             <div class="about content">
@@ -30,8 +42,8 @@
                             </div>
                             <div class="has-text-centered">
                                 <template v-if="isConnected">
-                                    <b-button type="is-success" v-on:click="confirmCustom" :disabled="isOwnHouse">
-                                        {{ isOwnHouse ? "Tsss... You can't buy your own house !" : 'Available now ! Buy it' }}
+                                    <b-button type="is-success" v-on:click="openConfirmDialog" :disabled="isOwnHouse">
+                                        {{ isOwnHouse ? "Tsss... You can't buy your own house !" : "Available now ! Buy it" }}
                                     </b-button>
                                 </template>
                                 <template v-else>
@@ -63,32 +75,35 @@
                             </nav>
                             <hr>
                             <div class="other">
-                                <h2 class="subtitle">Others</h2>
+                                <h2 class="subtitle is-bold">Others</h2>
                                 <br>
                                 <div class="other-item columns">
                                     <div class="column is-2">
-                                        <p>Coffee</p>
+                                        <b>Coffee</b>
                                     </div>
                                     <div class="column is-offset-2 is-8">
-                                        <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the kitchen
+                                        <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the
+                                            kitchen
                                             and make yourself a cup of coffee.</p>
                                     </div>
                                 </div>
                                 <div class="other-item columns">
                                     <div class="column is-2">
-                                        <p>Printing</p>
+                                        <b>Printing</b>
                                     </div>
                                     <div class="column is-offset-2 is-8">
-                                        <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the kitchen
+                                        <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the
+                                            kitchen
                                             and make yourself a cup of coffee.</p>
                                     </div>
                                 </div>
                                 <div class="other-item columns">
                                     <div class="column is-2">
-                                        <p>Microwaves</p>
+                                        <b>Microwaves</b>
                                     </div>
                                     <div class="column is-offset-2 is-8">
-                                        <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the kitchen
+                                        <p>Unlimited coffee and assorted tea. You're welcome to grab a cup in the
+                                            kitchen
                                             and make yourself a cup of coffee.</p>
                                     </div>
                                 </div>
@@ -105,8 +120,13 @@
 <script lang="ts">
 	import { Component, Vue } from 'vue-property-decorator'
 	import { House } from '@/definitions'
+		import GoBackComponent from '@/components/GoBackComponent.vue'
 
-	@Component
+	@Component({
+      components: {
+      	GoBackComponent: GoBackComponent
+      }
+    })
 	export default class AppOneHouse extends Vue {
 		private HouseID?: string
 		private House: House | null = null
@@ -119,50 +139,105 @@
 		}
 
 		async mounted() {
+
+			// Event register
+			this.$MyContract.events.HouseDeleted({}, async (error: any, data: any) => {
+				this.$buefy.toast.open({
+					type: 'is-success',
+					message: 'The house has been deleted'
+				})
+				await this.$router.push('/')
+			})
+
+			this.$MyContract.events.ChangeOwner({}, async () => {
+				this.$buefy.toast.open({
+					type: 'is-success',
+					message: 'this house is yours now ! Be happy and Chill :)'
+				})
+
+				this.House = await this.displayHouse()
+
+				this.isLoading = false
+				return
+			})
+
 			try {
-				this.mountedHouse()
+				this.House = await this.displayHouse()
 			} catch (error) {
-				this.$buefy.toast.open({ type: 'is-danger', message: 'House cannot be found' })
+				this.$buefy.toast.open({ type: 'is-danger', message: error })
 				await this.$router.push('/')
 			}
 		}
 
-		confirmCustom() {
+		async deleteHouse() {
+			this.$buefy.dialog.confirm({
+				title: 'Delete House',
+				message: `Delete this house, are you sure ?`,
+				cancelText: 'Decline',
+				focusOn: 'confirm',
+				confirmText: 'Delete',
+				type: 'is-danger',
+				onConfirm: async () => {
+					this.isLoading = true
+					try {
+						await this.$MyContract.methods.deleteOneHouse(this.HouseID).send({
+							from: this.$Web3Eth.defaultAccount
+						})
+						this.isLoading = false
+					} catch (error) {
+						console.error(error)
+						this.$buefy.toast.open({
+							type: 'is-danger',
+							message: 'Une erreur s\'est produite'
+						})
+						this.isLoading = false
+					}
+				}
+			})
+		}
+
+		openConfirmDialog() {
 			this.$buefy.dialog.confirm({
 				title: 'Buy House',
 				message: `This house cost ${this.House && this.House.price || 0} Ethereum.
-      Are you sur you spend it ?`,
+      Are you sur you want spend it ?`,
 				cancelText: 'Decline',
-				confirmText: 'Accept',
+				focusOn: 'confirm',
+				confirmText: 'Buy',
 				type: 'is-success',
 				onConfirm: async () => {
+
+
+					this.isLoading = true
 
 					if (!this.House || !this.House.id) {
 						this.$buefy.toast.open({
 							type: 'is-danger',
 							message: 'No House was found'
 						})
+						this.isLoading = false
 						return
 					}
 
+
 					try {
-						this.isLoading = true
 						await this.changeOwner(this.House.id)
-						this.$buefy.dialog.alert({
-							type: 'is-success',
-							message: 'this house is yours now ! Be happy and Chill :)'
-						})
-						this.mountedHouse()
-						this.isLoading = false
 					} catch (error) {
 						this.isLoading = false
-						console.log('onConfirm - error', error)
 						this.$buefy.toast.open({
 							type: 'is-danger',
 							message: error
 						})
 						return
 					}
+				},
+				onCancel: () => {
+					this.isLoading = false
+					this.$buefy.toast.open({
+						type: 'is-primary',
+						message: 'Cancel by user'
+					})
+					return
 				}
 			})
 		}
@@ -171,22 +246,20 @@
 			return await this.$MyContract.methods.getHouse(houseId).call()
 		}
 
-		async mountedHouse() {
+		async displayHouse() {
 			const house = this.HouseID ? this.dtoHouse(await this.getHouseById(this.HouseID)) : undefined
 
+			// In case of no house was found
 			if (!house || house.id === '0' && house.price === 0) {
 				this.$buefy.toast.open({ type: 'is-danger', message: 'No House was found' })
-				return await this.$router.push('/')
+				return Promise.reject('No House was found')
 			}
-
-			console.log('House', house)
 
 
 			this.isConnected = this.$Web3Eth.defaultAccount !== null
 			this.isOwnHouse = house.owner.publicAddress === this.$Web3Eth.defaultAccount
-			console.log('this.$Web3Eth.defaultAccount', this.$Web3Eth.defaultAccount)
 
-			this.House = house
+			return house
 		}
 
 		async changeOwner(houseId: string): Promise<any> {
@@ -201,28 +274,21 @@
 
 			const price = this.House.price ? this.$Web3.utils.toWei(this.House.price.toString(), 'ether') : undefined
 
-			console.log('price', price)
-
 			if (!price) {
 				return Promise.reject('Price was not found')
 			}
 
 			const currentBalance = this.$Web3.utils.fromWei(await this.$Web3Eth.getBalance(this.$Web3Eth.defaultAccount!))
 
-			if (currentBalance < this.House.price.toString(10)) {
+
+			if (parseFloat(currentBalance) < this.House.price) {
 				return Promise.reject('Your balance is too low')
 			}
 
-			console.log('this.House.owner.publicAddress', this.House.owner.publicAddress)
-			console.log('this.$Web3Eth.defaultAccount', this.$Web3Eth.defaultAccount)
-			console.log('houseId', houseId)
-			console.log('typeof houseId', parseInt(houseId))
-			console.log('price', price)
-			const owner = await this.$MyContract.methods.setHouseOwner(parseInt(houseId), this.House.owner.publicAddress).send({
+			await this.$MyContract.methods.setHouseOwner(parseInt(houseId), this.House.owner.publicAddress).send({
 				from: this.$Web3Eth.defaultAccount,
 				value: price
 			})
-			console.log('owner', owner)
 			return
 		}
 

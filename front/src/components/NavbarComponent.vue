@@ -2,10 +2,7 @@
     <b-navbar class="is-fixed-top">
         <template slot="brand">
             <b-navbar-item tag="router-link" :to="{ path: '/' }">
-                <img
-                        src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
-                        alt="Lightweight UI components for Vue.js based on Bulma"
-                >
+                <b>CoinHouse</b>
             </b-navbar-item>
         </template>
         <template slot="start">
@@ -54,7 +51,7 @@
 
 <style scoped="scss">
     .is-fixed-top {
-        z-index: 9999 !important;
+        z-index: 999 !important;
     }
 
 </style>
